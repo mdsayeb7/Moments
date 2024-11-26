@@ -252,3 +252,8 @@
 *, :after, :before {
   border-radius: 8px;
 }
+
+.controls-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
