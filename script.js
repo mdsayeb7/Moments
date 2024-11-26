@@ -2,13 +2,16 @@ const dialog = document.querySelector('#dialog');
 const galleryContainer = document.querySelector('.imageGallery');
 const carouselContainer = document.querySelector('#carousel');
 const closeDialogBtn = document.querySelector('#closeDialogBtn');
-const controlsBtn = document.querySelectorAll('.controls-btn');
+const nextButton = document.querySelector('.controls-btn.next');
+const prevButton = document.querySelector('.controls-btn.prev');
 
+// Array of image URLs
 const images = [
-  "/img/CLELFJhu.webp", "/img/FcFjBvHx.webp", "/img/TeAeZpxD.webp", "/img/tKuctSHr.webp", 
-  "/img/tKuctSHr.webp", "/img/tKuctSHr.webp", "/img/akbFivud.webp", "/img/mMhbtqvY.webp", 
-  "/img/mMhbtqvY.webp", "/img/tBKkxMmk.webp", "/img/tBKkxMmk.webp", "/img/tAndIWYz.webp"
+  "/img/CLELFJhu.webp", "/img/FcFjBvHx.webp", "/img/TeAeZpxD.webp", "/img/tKuctSHr.webp",
+  "/img/akbFivud.webp", "/img/mMhbtqvY.webp", "/img/tBKkxMmk.webp", "/img/tAndIWYz.webp"
 ];
+
+let currentIndex = 0; // Track the current index of the displayed image
 
 // Dynamically generate gallery buttons
 images.forEach((image, index) => {
@@ -16,7 +19,7 @@ images.forEach((image, index) => {
   button.onclick = () => openDialog(index);
   const img = document.createElement('img');
   img.src = image;
-  img.alt = "Sayfullah Sayeb - Moments";
+  img.alt = "Image";
   img.loading = "lazy";
   button.appendChild(img);
   galleryContainer.appendChild(button);
@@ -26,52 +29,62 @@ images.forEach((image, index) => {
 images.forEach((image) => {
   const img = document.createElement('img');
   img.src = image;
-  img.alt = "Sayfullah Sayeb - Moments";
+  img.alt = "Image";
   img.loading = "lazy";
   carouselContainer.appendChild(img);
 });
 
 function openDialog(index) {
-  if (!document.startViewTransition) {
-    dialog.showModal();
-    const image = carouselContainer.querySelectorAll('img')[index];
-    image.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-  } else {
-    handleTransition(index);
-  }
-}
+  currentIndex = index;
+  dialog.showModal();
+  const image = carouselContainer.querySelectorAll('img')[currentIndex];
+  image.scrollIntoView({ behavior: 'smooth', inline: 'center' });
 
-async function handleTransition(index) {
-  const transition = document.startViewTransition(() => dialog.showModal());
-  try {
-    await transition.finished;
-  } finally {
-    const image = carouselContainer.querySelectorAll('img')[index];
-    image.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-  }
+  // Update the button states when opening the dialog
+  updateButtonStates();
 }
 
 function scrollCarousel(direction) {
-  const width = carouselContainer.clientWidth;
-  carouselContainer.scrollBy({
-    left: width * direction,
-    behavior: 'smooth'
-  });
+  // Update the currentIndex based on the direction
+  if (direction === 1 && currentIndex < images.length - 1) {
+    currentIndex++; // Move to next image
+  } else if (direction === -1 && currentIndex > 0) {
+    currentIndex--; // Move to previous image
+  }
+
+  // Scroll to the new image
+  const image = carouselContainer.querySelectorAll('img')[currentIndex];
+  image.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+
+  // Update the button states after scrolling
+  updateButtonStates();
 }
 
-const closeDialog = () => {
-  if (!document.startViewTransition) {
-    dialog.close();
+// Update button states (disable/enable next and previous)
+function updateButtonStates() {
+  if (currentIndex === 0) {
+    prevButton.disabled = true;  // Disable "Previous" button on the first image
   } else {
-    document.startViewTransition(() => dialog.close());
+    prevButton.disabled = false;
   }
-};
 
-closeDialogBtn.addEventListener('click', () => closeDialog());
+  if (currentIndex === images.length - 1) {
+    nextButton.disabled = true;  // Disable "Next" button on the last image
+  } else {
+    nextButton.disabled = false;
+  }
+}
 
-controlsBtn.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const direction = btn.classList.contains('next') ? 1 : -1;
-    scrollCarousel(direction);
-  });
+// Event listeners for the buttons
+nextButton.addEventListener('click', () => scrollCarousel(1));
+prevButton.addEventListener('click', () => scrollCarousel(-1));
+
+// Event listener for closing the dialog
+closeDialogBtn.addEventListener('click', () => {
+  dialog.close();
+  // Ensure that the buttons reset when closing the dialog
+  updateButtonStates();
 });
+
+// Initial state check for the buttons
+updateButtonStates(); // Call it on page load to set the correct button states
