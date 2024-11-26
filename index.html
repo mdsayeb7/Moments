@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moments</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="/img/DMHpYzBj.webp" type="image/webp">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>My Moments✨</h1>
+  </header>
+
+  <main>
+    <section>
+      <div class="imageGallery">
+        <!-- Dynamically generated gallery buttons will be inserted here -->
+      </div>
+
+      <dialog class="dialog" id="dialog">
+        <div class="dialogContainer">
+          <div class="carousel" id="carousel">
+            <!-- Dynamically generated carousel images will be inserted here -->
+          </div>
+
+          <div class="controls">
+            <button class="controls-btn prev" onclick="scrollCarousel(-1)">
+              <i class="ri-arrow-left-circle-fill"></i>
+            </button>
+            <button class="controls-btn next" onclick="scrollCarousel(1)">
+              <i class="ri-arrow-right-circle-fill"></i>
+            </button>
+          </div>
+
+          <button id="closeDialogBtn" class="closeDialog">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+      </dialog>
+    </section>
+  </main>
+
+  <footer>
+    <a href="https://github.com/SayfullahSayeb">©2025, Sayfullah Sayeb.</a>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
