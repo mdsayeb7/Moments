@@ -7,8 +7,8 @@ const prevButton = document.querySelector('.controls-btn.prev');
 
 // Array of image URLs
 const images = [
-  "/img/CLELFJhu.webp", "/img/FcFjBvHx.webp", "/img/TeAeZpxD.webp", "/img/tKuctSHr.webp",
-  "/img/akbFivud.webp", "/img/mMhbtqvY.webp", "/img/tBKkxMmk.webp", "/img/tAndIWYz.webp"
+  "img/CLELFJhu.webp", "img/FcFjBvHx.webp", "img/TeAeZpxD.webp", "img/tKuctSHr.webp",
+  "img/akbFivud.webp", "img/mMhbtqvY.webp", "img/tBKkxMmk.webp", "img/tAndIWYz.webp"
 ];
 
 let currentIndex = 0; // Track the current index of the displayed image
